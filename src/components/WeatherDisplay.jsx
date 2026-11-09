@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./CitySearch.css";
 
-export default function WeatherDisplay({ cityData, city }) {
+export default function WeatherDisplay({ cityData, city, geo_data }) {
+
     const API_url_data = import.meta.env.VITE_WEATHER_DATA_URL;
     const API_key = import.meta.env.VITE_API;
 
@@ -11,11 +12,18 @@ export default function WeatherDisplay({ cityData, city }) {
         async function fetchWeather() {
             const url = new URL(API_url_data);
 
-            url.searchParams.set("lat", cityData.lat);
-            url.searchParams.set("lon", cityData.lon);
-            url.searchParams.set("lang", "da");
-            url.searchParams.set("units", "metric");
-            url.searchParams.set("appid", API_key);
+            // url.searchParams.set("lat", cityData.lat);
+            // url.searchParams.set("lon", cityData.lon);
+            // url.searchParams.set("lang", "da");
+            // url.searchParams.set("units", "metric");
+            // url.searchParams.set("appid", API_key);
+
+
+            url.search = new URLSearchParams(
+                { lat: cityData.lat, lon: cityData.lon, appid: API_key, lang: "da", units: "metric" }
+            );
+
+            console.log(url.search);
 
             try {
                 const response = await fetch(url);
@@ -35,6 +43,9 @@ export default function WeatherDisplay({ cityData, city }) {
         fetchWeather();
 
     }, [cityData]);
+
+    console.log({ geo_data });
+
 
     if (!weather) {
         return <p>Henter vejret...</p>;

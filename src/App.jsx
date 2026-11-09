@@ -6,11 +6,12 @@ import "/src/components/CitySearch.css";
 
 function App() {
   const [cityData, setCityData] = useState("");
+  const [geo_data, setGeoData] = useState("");
   const [city, setCity] = useState("");
 
   return (
     <>
-      <WeatherContainer setCityData={setCityData} setCity={setCity} cityData={cityData} city={city} />
+      <WeatherContainer setCityData={setCityData} setCity={setCity} cityData={cityData} city={city} setGeoData={setGeoData} geo_data={geo_data} />
     </>
   )
 }

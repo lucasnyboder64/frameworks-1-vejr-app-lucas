@@ -1,8 +1,9 @@
 import React from "react";
 import "./CitySearch.css";
 
-export default function CitySearch({ setCityData, setCity }) {
+export default function CitySearch({ setCityData, setCity, setGeoData, geo_data }) {
     const API_url = import.meta.env.VITE_WEATHER_URL;
+    const API_Geo_url = import.meta.env.VITE_GEO_WEATHER_URL;
     const API_key = import.meta.env.VITE_API;
 
     async function handleSubmit(event) {
@@ -12,24 +13,34 @@ export default function CitySearch({ setCityData, setCity }) {
         const city = formData.get("city");
 
         const url = new URL(API_url);
+        const geo_url = new URL(API_Geo_url);
 
-        url.searchParams.set("q", city);
-        url.searchParams.set("appid", API_key);
+        if (city != "") {
+            url.searchParams.set("q", city);
+            url.searchParams.set("appid", API_key);
 
-        try {
-            const response = await fetch(url);
+            geo_url.searchParams.set("q", city);
+            geo_url.searchParams.set("appid", API_key);
+            geo_url.searchParams.set("limit", 5);
 
-            if (!response.ok) {
-                throw new Error("Kunne ikke finde byen");
+            try {
+                const response = await fetch(url);
+                const geo_response = await fetch(geo_url);
+
+                if (!response.ok) {
+                    throw new Error("Kunne ikke finde byen");
+                }
+
+                const data = await response.json();
+                const geo_data = await geo_response.json();
+
+                setGeoData(geo_data);
+                setCityData(data[0]);
+                setCity(city);
+
+            } catch (error) {
+                console.error(error);
             }
-
-            const data = await response.json();
-
-            setCityData(data[0]);
-            setCity(city);
-
-        } catch (error) {
-            console.error(error);
         }
     }
 

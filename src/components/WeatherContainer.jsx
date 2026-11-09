@@ -1,14 +1,28 @@
-import { useState } from "react";
+import React from "react";
 import CitySearch from "./CitySearch";
 import WeatherDisplay from "./WeatherDisplay";
+import "./CitySearch.css";
 
-export default function WeatherContainer({ setSearch, setCity, search, city }) {
-    const [cityData, setCityData] = useState("");
+export default function WeatherContainer({
+    cityData,
+    city,
+    setCityData,
+    setCity
+}) {
 
     return (
-        <section className="container">
-            <CitySearch setSearch={setSearch} setCity={setCity} setCityData={setCityData} />
-            <WeatherDisplay search={search} city={city} cityData={cityData} />
-        </section>
+        <>
+            <CitySearch
+                setCityData={setCityData}
+                setCity={setCity}
+            />
+
+            {cityData && (
+                <WeatherDisplay
+                    cityData={cityData}
+                    city={city}
+                />
+            )}
+        </>
     );
 }

@@ -2,14 +2,15 @@ import { useState } from 'react'
 import CitySearch from './components/CitySearch'
 import WeatherDisplay from './components/WeatherDisplay'
 import WeatherContainer from './components/WeatherContainer';
+import "/src/components/CitySearch.css";
 
 function App() {
-  const [search, setSearch] = useState("");
+  const [cityData, setCityData] = useState("");
   const [city, setCity] = useState("");
 
   return (
     <>
-      <WeatherContainer setSearch={setSearch} setCity={setCity} search={search} city={city} />
+      <WeatherContainer setCityData={setCityData} setCity={setCity} cityData={cityData} city={city} />
     </>
   )
 }

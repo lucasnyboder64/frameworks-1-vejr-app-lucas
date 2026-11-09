@@ -66,7 +66,8 @@ body {
 
 .weather_info p,
 .weather_info h1,
-.top h1 {
+.top h1,
+.other h1 {
     font-family: 'Open Sans';
     color: white;
     text-align: center;
@@ -93,4 +94,21 @@ body {
 
 .state_text {
     font-size: 18px;
+}
+
+.other {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.other_countries {
+    color: white;
+    display: block;
+    background-color: rgba(0, 0, 0, 0);
+    border: 1px solid white;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 20px;
+    cursor: pointer;
 }

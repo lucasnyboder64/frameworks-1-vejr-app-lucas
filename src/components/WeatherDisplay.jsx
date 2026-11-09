@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import "./CitySearch.css";
+import "./style.css";
 
-export default function WeatherDisplay({ cityData, city, geo_data }) {
+export default function WeatherDisplay({ cityData, city, geo_data, setCityData, setCity }) {
 
     const API_url_data = import.meta.env.VITE_WEATHER_DATA_URL;
     const API_key = import.meta.env.VITE_API;
@@ -12,18 +12,9 @@ export default function WeatherDisplay({ cityData, city, geo_data }) {
         async function fetchWeather() {
             const url = new URL(API_url_data);
 
-            // url.searchParams.set("lat", cityData.lat);
-            // url.searchParams.set("lon", cityData.lon);
-            // url.searchParams.set("lang", "da");
-            // url.searchParams.set("units", "metric");
-            // url.searchParams.set("appid", API_key);
-
-
             url.search = new URLSearchParams(
                 { lat: cityData.lat, lon: cityData.lon, appid: API_key, lang: "da", units: "metric" }
             );
-
-            console.log(url.search);
 
             try {
                 const response = await fetch(url);
@@ -44,7 +35,7 @@ export default function WeatherDisplay({ cityData, city, geo_data }) {
 
     }, [cityData]);
 
-    console.log({ geo_data });
+    console.log(cityData, "kig her");
 
 
     if (!weather) {
@@ -58,22 +49,42 @@ export default function WeatherDisplay({ cityData, city, geo_data }) {
     const icon_path = "/src/assets/" + weather.weather[0].icon + ".png";
 
     return (
-        <section className="weather_info">
-            <p className="country_text">
-                {regionNames.of(weather.sys.country).toUpperCase()}
-            </p>
+        <>
+            <section className="weather_info">
+                <p className="country_text">
+                    {regionNames.of(weather.sys.country).toUpperCase()}
+                </p>
 
-            <p>{city.toUpperCase()}</p>
+                <p>{city.toUpperCase()}</p>
 
-            <h1>{Math.floor(weather.main.temp)}°</h1>
+                <h1>{Math.floor(weather.main.temp)}°</h1>
 
-            <h1>
-                Føles som {Math.floor(weather.main.feels_like)}°
-            </h1>
+                <h1>
+                    Føles som {Math.floor(weather.main.feels_like)}°
+                </h1>
 
-            <img src={icon_path} alt="Vejrikon" />
+                <img src={icon_path} alt="Vejrikon" />
 
-            <p>Vejret nu - {weather.weather[0].description}</p>
-        </section>
+                <p>Vejret nu - {weather.weather[0].description}</p>
+            </section>
+
+            <section className="other">
+                <h1>Mente du:</h1>
+                {geo_data.map((data, index) => {
+                    return (
+                        <button
+                            onClick={() => {
+                                setCityData(data);
+                                setCity(data.local_names?.da || data.name);
+                            }}
+                            key={index}
+                            className="other_countries"
+                        >
+                            {data.name}, {regionNames.of(data.country)}, {data.state}
+                        </button>
+                    );
+                })}
+            </section>
+        </>
     );
 }

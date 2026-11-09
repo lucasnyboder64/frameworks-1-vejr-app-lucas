@@ -1,7 +1,7 @@
 import React from "react";
 import CitySearch from "./CitySearch";
 import WeatherDisplay from "./WeatherDisplay";
-import "./CitySearch.css";
+import "./style.css";
 
 export default function WeatherContainer({
     cityData,
@@ -25,6 +25,8 @@ export default function WeatherContainer({
                 <WeatherDisplay
                     cityData={cityData}
                     city={city}
+                    setCityData={setCityData}
+                    setCity={setCity}
                     setGeoData={setGeoData}
                     geo_data={geo_data}
                 />

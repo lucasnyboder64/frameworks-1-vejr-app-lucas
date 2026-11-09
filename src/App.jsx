@@ -2,7 +2,7 @@ import { useState } from 'react'
 import CitySearch from './components/CitySearch'
 import WeatherDisplay from './components/WeatherDisplay'
 import WeatherContainer from './components/WeatherContainer';
-import "/src/components/CitySearch.css";
+import "/src/components/style.css";
 
 function App() {
   const [cityData, setCityData] = useState("");

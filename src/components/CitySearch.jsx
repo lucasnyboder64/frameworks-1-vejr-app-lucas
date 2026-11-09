@@ -1,5 +1,5 @@
 import React from "react";
-import "./CitySearch.css";
+import "./style.css";
 
 export default function CitySearch({ setCityData, setCity, setGeoData, geo_data }) {
     const API_url = import.meta.env.VITE_WEATHER_URL;
@@ -34,9 +34,11 @@ export default function CitySearch({ setCityData, setCity, setGeoData, geo_data 
                 const data = await response.json();
                 const geo_data = await geo_response.json();
 
+                geo_data.shift();
+
                 setGeoData(geo_data);
                 setCityData(data[0]);
-                setCity(city);
+                setCity(data[0].local_names?.da || data[0].name);
 
             } catch (error) {
                 console.error(error);
